@@ -1,0 +1,10 @@
+module.exports = {
+  testEnvironment: 'node',
+  testMatch: ['**/__tests__/**/*.js', '**/?(*.)+(spec|test).js'],
+  verbose: true,
+  forceExit: true,
+  clearMocks: true,
+  resetModules: true,
+  coveragePathIgnorePatterns: ['node_modules'],
+  testTimeout: 60000,
+};
