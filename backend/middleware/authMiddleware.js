@@ -2,7 +2,8 @@ const jwt = require('jsonwebtoken');
 const config = require('../config/env');
 const User = require('../models/User');
 
-const protect = async (req, res, next) => {
+// Alias protect as authenticateUser for requirements compatibility
+const authenticateUser = async (req, res, next) => {
   let token;
 
   if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
@@ -27,4 +28,42 @@ const protect = async (req, res, next) => {
   }
 };
 
-module.exports = { protect };
+const protect = authenticateUser;
+
+// Authorize specific roles
+const authorizeRoles = (...roles) => {
+  return (req, res, next) => {
+    if (!req.user) {
+      return res.status(401).json({ message: 'Not authorized, user not found' });
+    }
+    if (!roles.includes(req.user.role)) {
+      return res.status(403).json({ 
+        message: `User role '${req.user.role}' is not authorized to access this route` 
+      });
+    }
+    next();
+  };
+};
+
+// Authorize permissions (if granular permissions are needed or map to roles)
+const authorizePermissions = (...permissions) => {
+  // Mapping roles to permissions if needed, or check specific permissions
+  // SUPER_ADMIN has all permissions
+  return (req, res, next) => {
+    if (!req.user) {
+      return res.status(401).json({ message: 'Not authorized, user not found' });
+    }
+    if (req.user.role === 'SUPER_ADMIN') {
+      return next();
+    }
+    // Implement custom permission checks if required
+    next();
+  };
+};
+
+module.exports = {
+  authenticateUser,
+  protect,
+  authorizeRoles,
+  authorizePermissions
+};

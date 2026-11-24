@@ -1,8 +1,33 @@
 import { NavLink } from 'react-router-dom';
 import { navLinks } from '../constants/navigation';
 import { LayoutGrid, Settings } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
+
+// Role-based navigation mapping
+const rolePermissions = {
+  SUPER_ADMIN: [
+    'Dashboard', 'Employees', 'Departments', 'Attendance', 'Leaves', 'Tasks',
+    'Sales', 'Customers', 'Quotations', 'Finance', 'Income', 'Expenses',
+    'Invoices', 'Inventory', 'Products', 'Categories', 'Suppliers'
+  ],
+  HR_MANAGER: ['Dashboard', 'Employees', 'Departments', 'Attendance', 'Leaves', 'Tasks'],
+  FINANCE_MANAGER: ['Dashboard', 'Finance', 'Income', 'Expenses', 'Invoices'],
+  SALES_MANAGER: ['Dashboard', 'Sales', 'Customers', 'Quotations'],
+  INVENTORY_MANAGER: ['Dashboard', 'Inventory', 'Products', 'Categories', 'Suppliers'],
+  EMPLOYEE: ['Dashboard', 'Attendance', 'Leaves', 'Tasks'],
+};
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
+  const { user } = useAuth();
+
+  // Filter navigation links based on user role
+  const allowedLinks = navLinks.filter((link) => {
+    if (!user) return false;
+    if (user.role === 'SUPER_ADMIN') return true;
+    const permissions = rolePermissions[user.role] || ['Dashboard'];
+    return permissions.includes(link.name);
+  });
+
   return (
     <aside className={`fixed inset-y-0 left-0 z-50 w-64 bg-[#111827] text-white transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0 flex flex-col`}>
       <div className="p-6 border-b border-slate-800">
@@ -18,7 +43,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
       </div>
       
       <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
-        {navLinks.map((link) => {
+        {allowedLinks.map((link) => {
           const Icon = link.icon;
           return (
             <NavLink

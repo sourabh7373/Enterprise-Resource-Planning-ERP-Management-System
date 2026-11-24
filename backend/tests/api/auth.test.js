@@ -8,6 +8,13 @@ afterEach(async () => await clearTestDB());
 afterAll(async () => await closeTestDB());
 
 describe('Auth API', () => {
+  it('should register a new user with default EMPLOYEE role', async () => {
+    const res = await request(app).post('/api/auth/register').send({ fullName: 'Test User', email: 'register@example.com', password: 'password123' });
+    expect(res.statusCode).toBe(201);
+    expect(res.body).toHaveProperty('token');
+    expect(res.body.role).toBe('EMPLOYEE');
+  });
+
   it('should login a user', async () => {
     await User.create({ email: 'test@example.com', password: 'password123' });
     const res = await request(app).post('/api/auth/login').send({ email: 'test@example.com', password: 'password123' });

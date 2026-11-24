@@ -33,6 +33,46 @@ const login = async (req, res) => {
   }
 };
 
+const register = async (req, res) => {
+  const { fullName, email, password, role } = req.body;
+
+  try {
+    if (!email || !password) {
+      return res.status(400).json({ message: 'Please provide email and password' });
+    }
+
+    if (role && role === 'SUPER_ADMIN') {
+      return res.status(403).json({ message: 'Public users are not allowed to assign privileged roles' });
+    }
+
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: 'User already exists with this email' });
+    }
+
+    // Public registration always assigns default EMPLOYEE role and active status. Never SUPER_ADMIN or manager roles.
+    const user = new User({
+      fullName: fullName || '',
+      email,
+      password,
+      role: 'EMPLOYEE',
+      isActive: true,
+    });
+    await user.save();
+
+    res.status(201).json({
+      _id: user._id,
+      fullName: user.fullName,
+      email: user.email,
+      role: user.role,
+      token: generateToken(user._id),
+      message: 'Registration successful',
+    });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error during registration' });
+  }
+};
+
 const logout = async (req, res) => {
   res.json({ message: 'Logged out successfully' });
 };
@@ -94,4 +134,4 @@ const resetPassword = async (req, res) => {
   }
 };
 
-module.exports = { login, logout, getMe, changePassword, forgotPassword, resetPassword };
+module.exports = { login, register, logout, getMe, changePassword, forgotPassword, resetPassword };
