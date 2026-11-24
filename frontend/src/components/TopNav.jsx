@@ -1,48 +1,63 @@
-import { Bell, Search, Menu, User, LogOut } from 'lucide-react';
+import { Bell, Search, Menu, User, ShieldCheck } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { useLocation } from 'react-router-dom';
 
 const TopNav = ({ toggleSidebar }) => {
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
+  const location = useLocation();
+
+  // Generate dynamic breadcrumb from pathname
+  const pathnames = location.pathname.split('/').filter((x) => x);
+  const pageTitle = pathnames.length > 0 
+    ? pathnames[pathnames.length - 1].charAt(0).toUpperCase() + pathnames[pathnames.length - 1].slice(1) 
+    : 'Dashboard';
 
   return (
-    <header className="sticky top-0 z-40 bg-white border-b border-slate-200 px-6 py-3 flex items-center justify-between">
+    <header className="sticky top-0 z-40 bg-[#111C33] border-b border-[#334155] px-6 py-3.5 flex items-center justify-between shadow-xs">
       <div className="flex items-center gap-4">
-        <button onClick={toggleSidebar} className="lg:hidden text-slate-600 hover:text-indigo-600">
-          <Menu size={24} />
+        <button onClick={toggleSidebar} className="lg:hidden text-[#CBD5E1] hover:text-[#FFFFFF] transition-colors p-1.5 rounded-lg hover:bg-[#0F172A]">
+          <Menu size={22} />
         </button>
-        <nav className="text-sm text-slate-500">
-          <span className="font-medium text-slate-900">Dashboard</span> / Overview
-        </nav>
+        <div>
+          <h1 className="text-base font-bold text-[#FFFFFF] tracking-tight capitalize">
+            {pageTitle === 'Create' ? 'Add Record' : pageTitle === 'Edit' ? 'Edit Record' : pageTitle}
+          </h1>
+          <nav className="text-xs text-[#CBD5E1] flex items-center gap-1.5 mt-0.5">
+            <span>Apex ERP</span>
+            <span>/</span>
+            <span className="text-[#38BDF8] font-medium capitalize">{pageTitle}</span>
+          </nav>
+        </div>
       </div>
       
       <div className="flex items-center gap-4">
         <div className="relative hidden md:block">
-          <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-          <input 
-            type="text" 
-            placeholder="Search..." 
-            className="pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 w-64"
+          <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#94A3B8]" />
+          <input
+            type="text"
+            placeholder="Global search records..."
+            className="pl-9 pr-4 py-2 bg-[#0F172A] border border-[#334155] rounded-xl text-xs text-[#FFFFFF] placeholder-[#94A3B8] focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB] w-64 transition-all"
           />
         </div>
-        <button className="relative text-slate-500 hover:text-indigo-600">
-          <Bell size={20} />
-          <span className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
+
+        <button className="relative p-2 text-[#CBD5E1] hover:text-[#FFFFFF] hover:bg-[#0F172A] rounded-xl transition-colors">
+          <Bell size={18} />
+          <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-[#DC2626] rounded-full ring-2 ring-[#111C33]"></span>
         </button>
-        <div className="flex items-center gap-3 pl-4 border-l border-slate-200">
-          <div className="text-right hidden sm:block">
-            <p className="text-sm font-medium text-slate-900">{user?.name || 'User'}</p>
-            <p className="text-xs text-slate-500">{user?.role ? user.role.replace('_', ' ') : 'Employee'}</p>
+
+        <div className="flex items-center gap-3 pl-4 border-l border-[#334155]">
+          <div className="w-9 h-9 bg-[#2563EB] rounded-xl flex items-center justify-center text-[#FFFFFF] font-bold text-sm ring-1 ring-[#38BDF8]/40">
+            {user?.name ? user.name.charAt(0).toUpperCase() : <User size={18} />}
           </div>
-          <div className="w-8 h-8 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600">
-            <User size={18} />
+          <div className="hidden sm:block text-left">
+            <p className="text-xs font-bold text-[#FFFFFF] flex items-center gap-1">
+              {user?.name || 'Enterprise User'}
+              <ShieldCheck size={14} className="text-[#38BDF8]" />
+            </p>
+            <p className="text-[10px] text-[#CBD5E1] font-medium uppercase tracking-wider">
+              {user?.role ? user.role.replace('_', ' ') : 'Administrator'}
+            </p>
           </div>
-          <button 
-            onClick={logout}
-            title="Logout"
-            className="p-2 text-slate-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors ml-2"
-          >
-            <LogOut size={18} />
-          </button>
         </div>
       </div>
     </header>

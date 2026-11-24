@@ -140,261 +140,261 @@ export const EmployeeForm = () => {
   };
 
   return (
-    <div className="p-8 max-w-4xl mx-auto space-y-6 bg-[#F5F7FB] min-h-screen">
+    <div className="p-8 max-w-4xl mx-auto space-y-6 bg-[#0B1120] min-h-screen text-[#E2E8F0]">
       <div className="flex items-center gap-4">
         <button
           onClick={() => navigate('/employees')}
-          className="p-2 border border-slate-200 rounded-xl hover:bg-white transition-colors text-slate-600"
+          className="p-2 border border-[#334155] rounded-xl hover:bg-[#172554] transition-colors text-[#CBD5E1]"
         >
           <ArrowLeft size={20} />
         </button>
         <div>
-          <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Personnel</p>
-          <h1 className="text-2xl font-bold text-slate-900 mt-1">{isEdit ? 'Edit Employee' : 'Onboard Employee'}</h1>
+          <p className="text-xs font-semibold text-[#38BDF8] uppercase tracking-wider">Personnel</p>
+          <h1 className="text-2xl font-bold text-[#FFFFFF] mt-1">{isEdit ? 'Edit Employee' : 'Onboard Employee'}</h1>
         </div>
       </div>
 
       {success && (
-        <div className="p-4 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-xl flex items-center gap-3">
-          <CheckCircle2 size={20} className="text-emerald-600 shrink-0" />
+        <div className="p-4 bg-emerald-950/60 border border-emerald-800/50 text-emerald-300 rounded-xl flex items-center gap-3">
+          <CheckCircle2 size={20} className="text-emerald-400 shrink-0" />
           <span className="text-sm font-medium">{success}</span>
         </div>
       )}
 
       {error && (
-        <div className="p-4 bg-rose-50 border border-rose-200 text-rose-800 rounded-xl flex items-center gap-3">
-          <AlertCircle size={20} className="text-rose-600 shrink-0" />
+        <div className="p-4 bg-rose-950/60 border border-rose-800/50 text-rose-300 rounded-xl flex items-center gap-3">
+          <AlertCircle size={20} className="text-rose-400 shrink-0" />
           <span className="text-sm font-medium">{error}</span>
         </div>
       )}
 
-      <form onSubmit={handleSubmit(onSubmit)} className="bg-white rounded-2xl border border-slate-200 shadow-sm p-8 space-y-6">
-        <div className="border-b border-slate-200 pb-4">
-          <h3 className="text-sm font-semibold text-slate-900 uppercase tracking-wider">Personal Information</h3>
+      <form onSubmit={handleSubmit(onSubmit)} className="bg-[#172554] rounded-2xl border border-[#334155] shadow-sm p-8 space-y-6">
+        <div className="border-b border-[#334155] pb-4">
+          <h3 className="text-sm font-semibold text-[#FFFFFF] uppercase tracking-wider">Personal Information</h3>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2">Full Name *</label>
+            <label className="block text-xs font-semibold text-[#CBD5E1] uppercase tracking-wider mb-2">Full Name *</label>
             <input
               type="text"
               {...register('fullName', { required: 'Full name is required' })}
-              className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500"
+              className="w-full px-4 py-2.5 bg-[#0F172A] border border-[#334155] rounded-xl text-sm text-[#FFFFFF] placeholder-[#94A3B8] focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB]"
               placeholder="e.g. Jane Doe"
             />
-            {errors.fullName && <p className="text-xs text-rose-600 mt-1">{errors.fullName.message}</p>}
+            {errors.fullName && <p className="text-xs text-rose-400 mt-1">{errors.fullName.message}</p>}
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2">Email Address *</label>
+            <label className="block text-xs font-semibold text-[#CBD5E1] uppercase tracking-wider mb-2">Email Address *</label>
             <input
               type="email"
               {...register('email', {
                 required: 'Email is required',
                 pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: 'Invalid email format' }
               })}
-              className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500"
+              className="w-full px-4 py-2.5 bg-[#0F172A] border border-[#334155] rounded-xl text-sm text-[#FFFFFF] placeholder-[#94A3B8] focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB]"
               placeholder="e.g. jane.doe@company.com"
             />
-            {errors.email && <p className="text-xs text-rose-600 mt-1">{errors.email.message}</p>}
+            {errors.email && <p className="text-xs text-rose-400 mt-1">{errors.email.message}</p>}
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2">Phone Number *</label>
+            <label className="block text-xs font-semibold text-[#CBD5E1] uppercase tracking-wider mb-2">Phone Number *</label>
             <input
               type="text"
               {...register('phone', { required: 'Phone number is required' })}
-              className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500"
+              className="w-full px-4 py-2.5 bg-[#0F172A] border border-[#334155] rounded-xl text-sm text-[#FFFFFF] placeholder-[#94A3B8] focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB]"
               placeholder="e.g. +1 555-0199"
             />
-            {errors.phone && <p className="text-xs text-rose-600 mt-1">{errors.phone.message}</p>}
+            {errors.phone && <p className="text-xs text-rose-400 mt-1">{errors.phone.message}</p>}
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2">Date of Birth</label>
+            <label className="block text-xs font-semibold text-[#CBD5E1] uppercase tracking-wider mb-2">Date of Birth</label>
             <input
               type="date"
               {...register('dateOfBirth')}
-              className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500"
+              className="w-full px-4 py-2.5 bg-[#0F172A] border border-[#334155] rounded-xl text-sm text-[#FFFFFF] focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB]"
             />
           </div>
 
           <div className="md:col-span-2">
-            <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2">Residential Address</label>
+            <label className="block text-xs font-semibold text-[#CBD5E1] uppercase tracking-wider mb-2">Residential Address</label>
             <textarea
               rows={2}
               {...register('address')}
-              className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500"
+              className="w-full px-4 py-2.5 bg-[#0F172A] border border-[#334155] rounded-xl text-sm text-[#FFFFFF] placeholder-[#94A3B8] focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB]"
               placeholder="Street address, city, country..."
             />
           </div>
         </div>
 
-        <div className="border-b border-slate-200 pb-4 pt-4">
-          <h3 className="text-sm font-semibold text-slate-900 uppercase tracking-wider">Employment Details</h3>
+        <div className="border-b border-[#334155] pb-4 pt-4">
+          <h3 className="text-sm font-semibold text-[#FFFFFF] uppercase tracking-wider">Employment Details</h3>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2">Department *</label>
+            <label className="block text-xs font-semibold text-[#CBD5E1] uppercase tracking-wider mb-2">Department *</label>
             <select
               {...register('department', { required: 'Department is required' })}
-              className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500"
+              className="w-full px-4 py-2.5 bg-[#0F172A] border border-[#334155] rounded-xl text-sm text-[#FFFFFF] focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB]"
             >
-              <option value="">Select Department</option>
+              <option value="" className="bg-[#0F172A] text-[#FFFFFF]">Select Department</option>
               {departments.map(dept => (
-                <option key={dept._id} value={dept._id}>{dept.name} ({dept.code})</option>
+                <option key={dept._id} value={dept._id} className="bg-[#0F172A] text-[#FFFFFF]">{dept.name} ({dept.code})</option>
               ))}
             </select>
-            {errors.department && <p className="text-xs text-rose-600 mt-1">{errors.department.message}</p>}
+            {errors.department && <p className="text-xs text-rose-400 mt-1">{errors.department.message}</p>}
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2">Designation *</label>
+            <label className="block text-xs font-semibold text-[#CBD5E1] uppercase tracking-wider mb-2">Designation *</label>
             <input
               type="text"
               {...register('designation', { required: 'Designation is required' })}
-              className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500"
+              className="w-full px-4 py-2.5 bg-[#0F172A] border border-[#334155] rounded-xl text-sm text-[#FFFFFF] placeholder-[#94A3B8] focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB]"
               placeholder="e.g. Senior Software Engineer"
             />
-            {errors.designation && <p className="text-xs text-rose-600 mt-1">{errors.designation.message}</p>}
+            {errors.designation && <p className="text-xs text-rose-400 mt-1">{errors.designation.message}</p>}
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2">Joining Date</label>
+            <label className="block text-xs font-semibold text-[#CBD5E1] uppercase tracking-wider mb-2">Joining Date</label>
             <input
               type="date"
               {...register('joiningDate')}
-              className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500"
+              className="w-full px-4 py-2.5 bg-[#0F172A] border border-[#334155] rounded-xl text-sm text-[#FFFFFF] focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB]"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2">Employment Type</label>
+            <label className="block text-xs font-semibold text-[#CBD5E1] uppercase tracking-wider mb-2">Employment Type</label>
             <select
               {...register('employmentType')}
-              className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500"
+              className="w-full px-4 py-2.5 bg-[#0F172A] border border-[#334155] rounded-xl text-sm text-[#FFFFFF] focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB]"
             >
-              <option value="Full-time">Full-time</option>
-              <option value="Part-time">Part-time</option>
-              <option value="Contract">Contract</option>
-              <option value="Intern">Intern</option>
+              <option value="Full-time" className="bg-[#0F172A] text-[#FFFFFF]">Full-time</option>
+              <option value="Part-time" className="bg-[#0F172A] text-[#FFFFFF]">Part-time</option>
+              <option value="Contract" className="bg-[#0F172A] text-[#FFFFFF]">Contract</option>
+              <option value="Intern" className="bg-[#0F172A] text-[#FFFFFF]">Intern</option>
             </select>
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2">Reporting Manager</label>
+            <label className="block text-xs font-semibold text-[#CBD5E1] uppercase tracking-wider mb-2">Reporting Manager</label>
             <select
               {...register('reportingManager')}
-              className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500"
+              className="w-full px-4 py-2.5 bg-[#0F172A] border border-[#334155] rounded-xl text-sm text-[#FFFFFF] focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB]"
             >
-              <option value="">Select Manager</option>
+              <option value="" className="bg-[#0F172A] text-[#FFFFFF]">Select Manager</option>
               {managers.map(mgr => (
-                <option key={mgr._id} value={mgr._id}>{mgr.fullName} ({mgr.employeeId})</option>
+                <option key={mgr._id} value={mgr._id} className="bg-[#0F172A] text-[#FFFFFF]">{mgr.fullName} ({mgr.employeeId})</option>
               ))}
             </select>
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2">Employment Status</label>
+            <label className="block text-xs font-semibold text-[#CBD5E1] uppercase tracking-wider mb-2">Employment Status</label>
             <select
               {...register('employmentStatus')}
-              className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500"
+              className="w-full px-4 py-2.5 bg-[#0F172A] border border-[#334155] rounded-xl text-sm text-[#FFFFFF] focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB]"
             >
-              <option value="Active">Active</option>
-              <option value="Probation">Probation</option>
-              <option value="Notice Period">Notice Period</option>
-              <option value="Terminated">Terminated</option>
-              <option value="Resigned">Resigned</option>
+              <option value="Active" className="bg-[#0F172A] text-[#FFFFFF]">Active</option>
+              <option value="Probation" className="bg-[#0F172A] text-[#FFFFFF]">Probation</option>
+              <option value="Notice Period" className="bg-[#0F172A] text-[#FFFFFF]">Notice Period</option>
+              <option value="Terminated" className="bg-[#0F172A] text-[#FFFFFF]">Terminated</option>
+              <option value="Resigned" className="bg-[#0F172A] text-[#FFFFFF]">Resigned</option>
             </select>
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2">Linked System User Account</label>
+            <label className="block text-xs font-semibold text-[#CBD5E1] uppercase tracking-wider mb-2">Linked System User Account</label>
             <select
               {...register('user')}
-              className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500"
+              className="w-full px-4 py-2.5 bg-[#0F172A] border border-[#334155] rounded-xl text-sm text-[#FFFFFF] focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB]"
             >
-              <option value="">No System User</option>
+              <option value="" className="bg-[#0F172A] text-[#FFFFFF]">No System User</option>
               {users.map(u => (
-                <option key={u._id} value={u._id}>{u.email} ({u.role})</option>
+                <option key={u._id} value={u._id} className="bg-[#0F172A] text-[#FFFFFF]">{u.email} ({u.role})</option>
               ))}
             </select>
           </div>
         </div>
 
-        <div className="border-b border-slate-200 pb-4 pt-4">
-          <h3 className="text-sm font-semibold text-slate-900 uppercase tracking-wider">Emergency Contact</h3>
+        <div className="border-b border-[#334155] pb-4 pt-4">
+          <h3 className="text-sm font-semibold text-[#FFFFFF] uppercase tracking-wider">Emergency Contact</h3>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div>
-            <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2">Contact Name</label>
+            <label className="block text-xs font-semibold text-[#CBD5E1] uppercase tracking-wider mb-2">Contact Name</label>
             <input
               type="text"
               {...register('emergencyName')}
-              className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500"
+              className="w-full px-4 py-2.5 bg-[#0F172A] border border-[#334155] rounded-xl text-sm text-[#FFFFFF] placeholder-[#94A3B8] focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB]"
               placeholder="Contact person"
             />
           </div>
           <div>
-            <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2">Relation</label>
+            <label className="block text-xs font-semibold text-[#CBD5E1] uppercase tracking-wider mb-2">Relation</label>
             <input
               type="text"
               {...register('emergencyRelation')}
-              className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500"
+              className="w-full px-4 py-2.5 bg-[#0F172A] border border-[#334155] rounded-xl text-sm text-[#FFFFFF] placeholder-[#94A3B8] focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB]"
               placeholder="e.g. Spouse / Parent"
             />
           </div>
           <div>
-            <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2">Contact Phone</label>
+            <label className="block text-xs font-semibold text-[#CBD5E1] uppercase tracking-wider mb-2">Contact Phone</label>
             <input
               type="text"
               {...register('emergencyPhone')}
-              className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500"
+              className="w-full px-4 py-2.5 bg-[#0F172A] border border-[#334155] rounded-xl text-sm text-[#FFFFFF] placeholder-[#94A3B8] focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB]"
               placeholder="Phone number"
             />
           </div>
         </div>
 
-        <div className="border-b border-slate-200 pb-4 pt-4">
-          <h3 className="text-sm font-semibold text-slate-900 uppercase tracking-wider">Profile Image & Documents</h3>
+        <div className="border-b border-[#334155] pb-4 pt-4">
+          <h3 className="text-sm font-semibold text-[#FFFFFF] uppercase tracking-wider">Profile Image & Documents</h3>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2">Profile Image (JPEG, PNG)</label>
+            <label className="block text-xs font-semibold text-[#CBD5E1] uppercase tracking-wider mb-2">Profile Image (JPEG, PNG)</label>
             <input
               type="file"
               accept="image/*"
               onChange={(e) => setProfileImageFile(e.target.files[0])}
-              className="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100"
+              className="w-full text-sm text-[#94A3B8] file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-[#2563EB]/20 file:text-[#38BDF8] hover:file:bg-[#2563EB]/30"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2">Supporting Documents (PDF, Word, Images)</label>
+            <label className="block text-xs font-semibold text-[#CBD5E1] uppercase tracking-wider mb-2">Supporting Documents (PDF, Word, Images)</label>
             <input
               type="file"
               multiple
               onChange={(e) => setDocumentFiles(e.target.files)}
-              className="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100"
+              className="w-full text-sm text-[#94A3B8] file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-[#2563EB]/20 file:text-[#38BDF8] hover:file:bg-[#2563EB]/30"
             />
           </div>
         </div>
 
-        <div className="flex justify-end gap-3 pt-4 border-t border-slate-200">
+        <div className="flex justify-end gap-3 pt-4 border-t border-[#334155]">
           <button
             type="button"
             onClick={() => navigate('/employees')}
-            className="px-6 py-2.5 border border-slate-200 text-slate-700 rounded-xl text-sm font-medium hover:bg-slate-50"
+            className="px-6 py-2.5 border border-[#334155] text-[#CBD5E1] rounded-xl text-sm font-medium hover:bg-[#0F172A] hover:text-[#FFFFFF]"
           >
             Cancel
           </button>
           <button
             type="submit"
             disabled={isSubmitting}
-            className="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-sm font-medium shadow-sm shadow-indigo-200 disabled:opacity-50"
+            className="px-6 py-2.5 bg-[#2563EB] hover:bg-[#1d4ed8] text-[#FFFFFF] rounded-xl text-sm font-medium shadow-sm shadow-blue-900/40 disabled:opacity-50"
           >
             {isSubmitting ? 'Saving...' : (isEdit ? 'Update Employee' : 'Onboard Employee')}
           </button>

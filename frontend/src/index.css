@@ -2,6 +2,25 @@
 
 @layer base {
   body {
-    @apply bg-gray-100 text-gray-900 font-sans;
+    @apply bg-[#0B1120] text-[#E2E8F0] font-sans antialiased;
   }
+}
+
+/* Custom scrollbar for professional enterprise dark feel */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0B1120;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #38BDF8;
 }
