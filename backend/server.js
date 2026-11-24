@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const helmet = require('helmet');
 const cors = require('cors');
 const config = require('./config/env');
@@ -19,6 +20,11 @@ app.use(express.json());
 // Routes
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/users', require('./routes/userRoutes'));
+app.use('/api/departments', require('./routes/departmentRoutes'));
+app.use('/api/employees', require('./routes/employeeRoutes'));
+
+// Serve uploaded files statically (restricted or authenticated if needed)
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Health Check
 app.get('/api/health', (req, res) => {

@@ -1,5 +1,10 @@
 import React from 'react';
-import { Users, Building2, ClipboardList, CalendarDays, ArrowRight, Clock } from 'lucide-react';
+import { EmployeeList } from './EmployeeList';
+import { EmployeeForm } from './EmployeeForm';
+import { EmployeeDetails } from './EmployeeDetails';
+import { DepartmentList } from './DepartmentList';
+import { DepartmentForm } from './DepartmentForm';
+import { Users, Building2, ClipboardList, CalendarDays, ArrowRight } from 'lucide-react';
 import { StatCard } from '../components/StatCard';
 import { AnalyticsSection } from '../components/AnalyticsSection';
 
@@ -52,7 +57,7 @@ export const Dashboard = () => {
         <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
           <h3 className="text-sm font-semibold text-slate-900 mb-6">Quick Access</h3>
           <div className="space-y-3">
-            {['Employees', 'Attendance', 'Leaves', 'Tasks'].map((item) => (
+            {['Employees', 'Departments', 'Attendance', 'Leaves'].map((item) => (
               <button key={item} className="flex items-center justify-between w-full p-3 rounded-lg hover:bg-slate-50 transition-colors border border-transparent hover:border-slate-100">
                 <span className="text-sm font-medium text-slate-700">{item}</span>
                 <ArrowRight size={16} className="text-slate-400" />
@@ -65,8 +70,10 @@ export const Dashboard = () => {
   );
 };
 
-export const Employees = () => <div className="p-8"><h1>Employees Page</h1></div>;
-export const Departments = () => <div className="p-8"><h1>Departments Page</h1></div>;
+export const Employees = EmployeeList;
+export const Departments = DepartmentList;
+export { EmployeeForm, EmployeeDetails, DepartmentList, DepartmentForm };
+
 export const Attendance = () => <div className="p-8"><h1>Attendance Page</h1></div>;
 export const Leaves = () => <div className="p-8"><h1>Leaves Page</h1></div>;
 export const Tasks = () => <div className="p-8"><h1>Tasks Page</h1></div>;
