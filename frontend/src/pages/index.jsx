@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Users, Building2, ClipboardList, CalendarDays, ArrowRight, ShieldCheck, Activity, TrendingUp } from 'lucide-react';
 import { StatCard } from '../components/StatCard';
@@ -118,8 +119,8 @@ export const Dashboard = () => {
               { name: 'Attendance Logs', path: '/attendance' },
               { name: 'Leave Requests', path: '/leaves' }
             ].map((item) => (
-              <button 
-                key={item.name} 
+              <button
+                key={item.name}
                 onClick={() => navigate(item.path)}
                 className="flex items-center justify-between w-full p-3.5 rounded-xl bg-[#0F172A] hover:bg-[#2563EB]/20 text-[#E2E8F0] hover:text-[#FFFFFF] transition-all border border-[#334155] group"
               >
@@ -149,7 +150,16 @@ import { TaskForm } from './TaskForm';
 import { ProjectList } from './ProjectList';
 import { ProjectForm } from './ProjectForm';
 import { ProjectDetails } from './ProjectDetails';
-export { TaskForm, ProjectList, ProjectForm, ProjectDetails };
+import CustomerList from './CustomerList';
+import CustomerForm from './CustomerForm';
+import CustomerDetails from './CustomerDetails';
+import QuotationList from './QuotationList';
+import QuotationForm from './QuotationForm';
+import QuotationDetails from './QuotationDetails';
+import SalesOrderList from './SalesOrderList';
+import SalesOrderDetails from './SalesOrderDetails';
+import SalesOrderForm from './SalesOrderForm';
+export { TaskForm, ProjectList, ProjectForm, ProjectDetails, CustomerList, CustomerForm, CustomerDetails, QuotationList, QuotationForm, QuotationDetails, SalesOrderList, SalesOrderDetails, SalesOrderForm };
 export const Employees = EmployeeList;
 export const Departments = DepartmentList;
 export const Attendance = () => {
@@ -178,20 +188,261 @@ export const Leaves = () => {
 import { TaskList } from './TaskList';
 export const Tasks = TaskList;
 
-export const Sales = () => (
-  <div className="p-8 bg-[#0B1120] min-h-screen text-[#E2E8F0]">
-    <div className="bg-[#172554] p-8 rounded-2xl border border-[#334155] shadow-sm max-w-4xl mx-auto">
-      <div className="border-b border-[#334155] pb-4 mb-6">
-        <p className="text-xs font-bold text-[#38BDF8] uppercase tracking-wider">Commercial</p>
-        <h1 className="text-2xl font-extrabold text-[#FFFFFF] mt-1">Sales & Quotations</h1>
-        <p className="text-sm text-[#94A3B8] mt-1">Manage client accounts, sales pipelines, and commercial quotations.</p>
+export const Sales = () => {
+  const navigate = useNavigate();
+  const [stats, setStats] = useState({
+    totalCustomers: 0,
+    totalQuotations: 0,
+    pendingQuotations: 0,
+    totalSalesOrders: 0,
+    confirmedOrders: 0,
+    completedOrders: 0
+  });
+  const [recentQuotations, setRecentQuotations] = useState([]);
+  const [recentOrders, setRecentOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchSalesData = async () => {
+      try {
+        setLoading(true);
+        const token = localStorage.getItem('token');
+        const headers = { Authorization: `Bearer ${token}` };
+
+        const [custRes, quotRes, orderRes] = await Promise.all([
+          axios.get('/api/customers', { headers }).catch(() => ({ data: [] })),
+          axios.get('/api/quotations', { headers }).catch(() => ({ data: [] })),
+          axios.get('/api/sales-orders', { headers }).catch(() => ({ data: [] }))
+        ]);
+
+        const customers = custRes.data || [];
+        const quotations = quotRes.data || [];
+        const orders = orderRes.data || [];
+
+        const pendingQuotations = quotations.filter(q => q.status === 'PENDING' || !q.status || q.status === 'DRAFT').length;
+        const confirmedOrders = orders.filter(o => o.orderStatus === 'CONFIRMED').length;
+        const completedOrders = orders.filter(o => o.orderStatus === 'COMPLETED').length;
+
+        setStats({
+          totalCustomers: customers.length,
+          totalQuotations: quotations.length,
+          pendingQuotations,
+          totalSalesOrders: orders.length,
+          confirmedOrders,
+          completedOrders
+        });
+
+        setRecentQuotations(quotations.slice(0, 5));
+        setRecentOrders(orders.slice(0, 5));
+      } catch (err) {
+        setError('Failed to load sales data from backend.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchSalesData();
+  }, []);
+
+  const convertToOrder = async (id) => {
+    try {
+      const token = localStorage.getItem('token');
+      await axios.post(`/api/quotations/${id}/convert`, {}, { headers: { Authorization: `Bearer ${token}` } });
+      alert('Quotation converted to Sales Order successfully!');
+      window.location.reload();
+    } catch (err) {
+      alert(err.response?.data?.message || 'Failed to convert quotation');
+    }
+  };
+
+  const updateOrderStatus = async (id, orderStatus) => {
+    try {
+      const token = localStorage.getItem('token');
+      await axios.patch(`/api/sales-orders/${id}/status`, { orderStatus }, { headers: { Authorization: `Bearer ${token}` } });
+      alert('Sales order status updated successfully!');
+      window.location.reload();
+    } catch (err) {
+      alert(err.response?.data?.message || 'Failed to update order status');
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="p-8 bg-[#0B1120] min-h-screen text-[#E2E8F0] flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-8 h-8 border-4 border-[#38BDF8] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-[#94A3B8]">Loading Sales & Quotations Dashboard...</p>
+        </div>
       </div>
-      <div className="bg-[#0F172A] p-6 rounded-xl border border-[#334155] text-center">
-        <p className="text-sm text-[#94A3B8] font-medium">Sales modules and client databases are fully operational.</p>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="p-8 bg-[#0B1120] min-h-screen text-[#E2E8F0] flex items-center justify-center">
+        <div className="bg-[#172554] p-6 rounded-xl border border-red-500/50 text-center max-w-md">
+          <h3 className="text-lg font-bold text-red-400 mb-2">Error Loading Data</h3>
+          <p className="text-sm text-[#CBD5E1] mb-4">{error}</p>
+          <button onClick={() => window.location.reload()} className="px-4 py-2 bg-[#2563EB] text-white rounded-lg text-sm font-semibold">Retry</button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="p-8 space-y-8 bg-[#0B1120] min-h-screen text-[#E2E8F0]">
+      {/* Header & Navigation */}
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 bg-[#172554] p-6 rounded-2xl border border-[#334155] shadow-sm">
+        <div>
+          <p className="text-xs font-bold text-[#38BDF8] uppercase tracking-wider">Commercial Management</p>
+          <h1 className="text-2xl font-extrabold text-[#FFFFFF] mt-1">Sales & Quotations Dashboard</h1>
+          <p className="text-sm text-[#94A3B8] mt-1">Manage client accounts, sales pipelines, quotations, and sales orders.</p>
+        </div>
+        <div className="flex flex-wrap items-center gap-3">
+          <button onClick={() => navigate('/customers')} className="px-4 py-2 bg-[#0F172A] hover:bg-[#2563EB]/20 text-[#38BDF8] rounded-xl text-sm font-semibold border border-[#334155] transition-all">
+            Customers
+          </button>
+          <button onClick={() => navigate('/quotations')} className="px-4 py-2 bg-[#0F172A] hover:bg-[#2563EB]/20 text-[#38BDF8] rounded-xl text-sm font-semibold border border-[#334155] transition-all">
+            Quotations
+          </button>
+          <button onClick={() => navigate('/sales-orders')} className="px-4 py-2 bg-[#2563EB] hover:bg-[#1d4ed8] text-white rounded-xl text-sm font-semibold shadow transition-all">
+            Sales Orders
+          </button>
+        </div>
+      </div>
+
+      {/* Metrics Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-5">
+        <div className="bg-[#172554] p-5 rounded-2xl border border-[#334155] shadow-sm">
+          <p className="text-xs font-semibold text-[#94A3B8] uppercase">Total Customers</p>
+          <h3 className="text-2xl font-extrabold text-white mt-2">{stats.totalCustomers}</h3>
+        </div>
+        <div className="bg-[#172554] p-5 rounded-2xl border border-[#334155] shadow-sm">
+          <p className="text-xs font-semibold text-[#94A3B8] uppercase">Total Quotations</p>
+          <h3 className="text-2xl font-extrabold text-white mt-2">{stats.totalQuotations}</h3>
+        </div>
+        <div className="bg-[#172554] p-5 rounded-2xl border border-[#334155] shadow-sm">
+          <p className="text-xs font-semibold text-[#94A3B8] uppercase">Pending Quotations</p>
+          <h3 className="text-2xl font-extrabold text-amber-400 mt-2">{stats.pendingQuotations}</h3>
+        </div>
+        <div className="bg-[#172554] p-5 rounded-2xl border border-[#334155] shadow-sm">
+          <p className="text-xs font-semibold text-[#94A3B8] uppercase">Total Sales Orders</p>
+          <h3 className="text-2xl font-extrabold text-white mt-2">{stats.totalSalesOrders}</h3>
+        </div>
+        <div className="bg-[#172554] p-5 rounded-2xl border border-[#334155] shadow-sm">
+          <p className="text-xs font-semibold text-[#94A3B8] uppercase">Confirmed Orders</p>
+          <h3 className="text-2xl font-extrabold text-sky-400 mt-2">{stats.confirmedOrders}</h3>
+        </div>
+        <div className="bg-[#172554] p-5 rounded-2xl border border-[#334155] shadow-sm">
+          <p className="text-xs font-semibold text-[#94A3B8] uppercase">Completed Orders</p>
+          <h3 className="text-2xl font-extrabold text-emerald-400 mt-2">{stats.completedOrders}</h3>
+        </div>
+      </div>
+
+      {/* Quotations & Sales Orders Sections */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* Quotations Section */}
+        <div className="bg-[#172554] p-6 rounded-2xl border border-[#334155] shadow-sm">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-lg font-bold text-white">Recent Quotations</h3>
+            <button onClick={() => navigate('/quotations')} className="text-xs text-[#38BDF8] hover:underline font-semibold">View All →</button>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-sm">
+              <thead className="bg-[#0F172A] text-[#94A3B8] uppercase text-xs">
+                <tr>
+                  <th className="p-3">Qtn #</th>
+                  <th className="p-3">Customer</th>
+                  <th className="p-3">Total</th>
+                  <th className="p-3">Status</th>
+                  <th className="p-3 text-right">Action</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-[#334155]">
+                {recentQuotations.length > 0 ? recentQuotations.map(q => (
+                  <tr key={q._id} className="hover:bg-[#1E293B]">
+                    <td className="p-3 font-semibold text-white">{q.quotationNumber}</td>
+                    <td className="p-3 text-[#CBD5E1]">{q.customer?.name || 'N/A'}</td>
+                    <td className="p-3 text-[#CBD5E1]">${q.grandTotal?.toFixed(2) || '0.00'}</td>
+                    <td className="p-3">
+                      <span className={`px-2 py-0.5 rounded-full text-xs font-semibold ${q.status === 'ACCEPTED' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-amber-500/20 text-amber-400'}`}>
+                        {q.status || 'PENDING'}
+                      </span>
+                    </td>
+                    <td className="p-3 text-right space-x-2">
+                      {q.status !== 'ACCEPTED' && (
+                        <button onClick={() => convertToOrder(q._id)} className="px-2 py-1 bg-[#2563EB] hover:bg-[#1d4ed8] text-white text-xs rounded font-semibold">
+                          Convert
+                        </button>
+                      )}
+                    </td>
+                  </tr>
+                )) : (
+                  <tr>
+                    <td colSpan="5" className="p-6 text-center text-[#94A3B8]">No quotations found.</td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* Sales Orders Section */}
+        <div className="bg-[#172554] p-6 rounded-2xl border border-[#334155] shadow-sm">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-lg font-bold text-white">Recent Sales Orders</h3>
+            <button onClick={() => navigate('/sales-orders')} className="text-xs text-[#38BDF8] hover:underline font-semibold">View All →</button>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-sm">
+              <thead className="bg-[#0F172A] text-[#94A3B8] uppercase text-xs">
+                <tr>
+                  <th className="p-3">Order #</th>
+                  <th className="p-3">Customer</th>
+                  <th className="p-3">Total</th>
+                  <th className="p-3">Status</th>
+                  <th className="p-3 text-right">Update Status</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-[#334155]">
+                {recentOrders.length > 0 ? recentOrders.map(o => (
+                  <tr key={o._id} className="hover:bg-[#1E293B]">
+                    <td className="p-3 font-semibold text-white">{o.orderNumber}</td>
+                    <td className="p-3 text-[#CBD5E1]">{o.customer?.name || 'N/A'}</td>
+                    <td className="p-3 text-[#CBD5E1]">${o.grandTotal?.toFixed(2) || '0.00'}</td>
+                    <td className="p-3">
+                      <span className="px-2 py-0.5 rounded-full text-xs font-semibold bg-sky-500/20 text-sky-400">
+                        {o.orderStatus}
+                      </span>
+                    </td>
+                    <td className="p-3 text-right">
+                      <select
+                        value={o.orderStatus}
+                        onChange={(e) => updateOrderStatus(o._id, e.target.value)}
+                        className="bg-[#0F172A] border border-[#334155] text-white text-xs rounded px-2 py-1 focus:outline-none"
+                      >
+                        <option value="DRAFT">DRAFT</option>
+                        <option value="CONFIRMED">CONFIRMED</option>
+                        <option value="PROCESSING">PROCESSING</option>
+                        <option value="COMPLETED">COMPLETED</option>
+                        <option value="CANCELLED">CANCELLED</option>
+                      </select>
+                    </td>
+                  </tr>
+                )) : (
+                  <tr>
+                    <td colSpan="5" className="p-6 text-center text-[#94A3B8]">No sales orders found.</td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 export const Inventory = () => (
   <div className="p-8 bg-[#0B1120] min-h-screen text-[#E2E8F0]">

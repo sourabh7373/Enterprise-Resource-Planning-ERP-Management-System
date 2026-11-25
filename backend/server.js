@@ -26,6 +26,9 @@ app.use('/api/attendance', require('./routes/attendanceRoutes'));
 app.use('/api/leaves', require('./routes/leaveRoutes'));
 app.use('/api/projects', require('./routes/projectRoutes'));
 app.use('/api/tasks', require('./routes/taskRoutes'));
+app.use('/api/customers', require('./routes/customerRoutes'));
+app.use('/api/quotations', require('./routes/quotationRoutes'));
+app.use('/api/sales-orders', require('./routes/salesOrderRoutes'));
 
 // Serve uploaded files statically (restricted or authenticated if needed)
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));

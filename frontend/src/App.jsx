@@ -21,7 +21,16 @@ import {
   ProjectForm,
   ProjectDetails,
   Sales,
-  Inventory
+  Inventory,
+  CustomerList,
+  CustomerForm,
+  CustomerDetails,
+  QuotationList,
+  QuotationForm,
+  QuotationDetails,
+  SalesOrderList,
+  SalesOrderDetails,
+  SalesOrderForm
 } from './pages';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -43,14 +52,14 @@ const App = () => {
           <Route element={<ProtectedRoute />}>
             <Route path="/" element={<MainLayout />}>
               <Route index element={<Dashboard />} />
-              
+
               <Route element={<RoleBasedRoute allowedRoles={['HR_MANAGER', 'SUPER_ADMIN']} />}>
                 <Route path="employees" element={<Employees />} />
                 <Route path="employees/create" element={<EmployeeForm />} />
                 <Route path="employees/edit/:id" element={<EmployeeForm />} />
                 <Route path="employees/:id/edit" element={<EmployeeForm />} />
                 <Route path="employees/:id" element={<EmployeeDetails />} />
-                
+
                 <Route path="departments" element={<Departments />} />
                 <Route path="departments/create" element={<DepartmentForm />} />
                 <Route path="departments/edit/:id" element={<DepartmentForm />} />
@@ -75,6 +84,18 @@ const App = () => {
 
               <Route element={<RoleBasedRoute allowedRoles={['FINANCE_MANAGER', 'SALES_MANAGER', 'SUPER_ADMIN']} />}>
                 <Route path="sales" element={<Sales />} />
+                <Route path="customers" element={<CustomerList />} />
+                <Route path="customers/create" element={<CustomerForm />} />
+                <Route path="customers/edit/:id" element={<CustomerForm />} />
+                <Route path="customers/:id/edit" element={<CustomerForm />} />
+                <Route path="customers/:id" element={<CustomerDetails />} />
+                <Route path="quotations" element={<QuotationList />} />
+                <Route path="quotations/create" element={<QuotationForm />} />
+                <Route path="quotations/edit/:id" element={<QuotationForm />} />
+                <Route path="quotations/:id" element={<QuotationDetails />} />
+                <Route path="sales-orders" element={<SalesOrderList />} />
+                <Route path="sales-orders/create" element={<SalesOrderForm />} />
+                <Route path="sales-orders/:id" element={<SalesOrderDetails />} />
               </Route>
 
               <Route element={<RoleBasedRoute allowedRoles={['INVENTORY_MANAGER', 'SUPER_ADMIN']} />}>
