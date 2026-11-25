@@ -14,7 +14,7 @@ const rolePermissions = {
   FINANCE_MANAGER: ['Dashboard', 'Finance', 'Income', 'Expenses', 'Invoices'],
   SALES_MANAGER: ['Dashboard', 'Sales', 'Customers', 'Quotations'],
   INVENTORY_MANAGER: ['Dashboard', 'Inventory', 'Products', 'Categories', 'Suppliers'],
-  EMPLOYEE: ['Dashboard', 'Attendance', 'Leaves', 'Tasks'],
+  EMPLOYEE: ['Dashboard', 'Attendance', 'Leaves', 'Apply Leave', 'Tasks'],
 };
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {

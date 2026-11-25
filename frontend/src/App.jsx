@@ -13,6 +13,8 @@ import {
   AttendanceManagement,
   AttendanceReport,
   Leaves,
+  ApplyLeave,
+  LeaveDetails,
   Tasks,
   Sales,
   Inventory
@@ -57,6 +59,8 @@ const App = () => {
                 <Route path="attendance/management" element={<AttendanceManagement />} />
                 <Route path="attendance/report" element={<AttendanceReport />} />
                 <Route path="leaves" element={<Leaves />} />
+                <Route path="leaves/apply" element={<ApplyLeave />} />
+                <Route path="leaves/:id" element={<LeaveDetails />} />
                 <Route path="tasks" element={<Tasks />} />
               </Route>
 

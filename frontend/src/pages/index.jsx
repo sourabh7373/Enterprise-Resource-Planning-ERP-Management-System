@@ -155,20 +155,20 @@ export const Attendance = () => {
   return <MyAttendance />;
 };
 
-export const Leaves = () => (
-  <div className="p-8 bg-[#0B1120] min-h-screen text-[#E2E8F0]">
-    <div className="bg-[#172554] p-8 rounded-2xl border border-[#334155] shadow-sm max-w-4xl mx-auto">
-      <div className="border-b border-[#334155] pb-4 mb-6">
-        <p className="text-xs font-bold text-[#38BDF8] uppercase tracking-wider">Leave Portal</p>
-        <h1 className="text-2xl font-extrabold text-[#FFFFFF] mt-1">Leave Management</h1>
-        <p className="text-sm text-[#94A3B8] mt-1">Review, approve, and manage staff leave requests and allocations.</p>
-      </div>
-      <div className="bg-[#0F172A] p-6 rounded-xl border border-[#334155] text-center">
-        <p className="text-sm text-[#94A3B8] font-medium">Leave applications and manager approval workflows are fully active.</p>
-      </div>
-    </div>
-  </div>
-);
+import ApplyLeave from './ApplyLeave';
+import MyLeaves from './MyLeaves';
+import LeaveManagement from './LeaveManagement';
+import LeaveDetails from './LeaveDetails';
+
+export { ApplyLeave, MyLeaves, LeaveManagement, LeaveDetails };
+
+export const Leaves = () => {
+  const { user } = useAuth();
+  if (user?.role === 'HR_MANAGER' || user?.role === 'SUPER_ADMIN') {
+    return <LeaveManagement />;
+  }
+  return <MyLeaves />;
+};
 
 export const Tasks = () => (
   <div className="p-8 bg-[#0B1120] min-h-screen text-[#E2E8F0]">

@@ -9,6 +9,7 @@ export const navLinks = [
   { name: 'Attendance Management', path: '/attendance/management', icon: Settings },
   { name: 'Attendance Report', path: '/attendance/report', icon: BarChart2 },
   { name: 'Leaves', path: '/leaves', icon: FileText },
+  { name: 'Apply Leave', path: '/leaves/apply', icon: FileText },
   { name: 'Tasks', path: '/tasks', icon: ClipboardList },
   { name: 'Sales', path: '/sales', icon: ShoppingCart },
   { name: 'Customers', path: '/customers', icon: Users },
