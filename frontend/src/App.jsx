@@ -1,17 +1,21 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import MainLayout from './layouts/MainLayout';
-import { 
-  Dashboard, 
-  Employees, 
-  EmployeeForm, 
-  EmployeeDetails, 
-  Departments, 
-  DepartmentForm, 
-  Attendance, 
-  Leaves, 
-  Tasks, 
-  Sales, 
-  Inventory 
+import {
+  Dashboard,
+  Employees,
+  EmployeeForm,
+  EmployeeDetails,
+  Departments,
+  DepartmentForm,
+  Attendance,
+  MyAttendance,
+  AttendanceHistory,
+  AttendanceManagement,
+  AttendanceReport,
+  Leaves,
+  Tasks,
+  Sales,
+  Inventory
 } from './pages';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -49,6 +53,9 @@ const App = () => {
 
               <Route element={<RoleBasedRoute allowedRoles={['HR_MANAGER', 'EMPLOYEE', 'SUPER_ADMIN']} />}>
                 <Route path="attendance" element={<Attendance />} />
+                <Route path="attendance/history" element={<AttendanceHistory />} />
+                <Route path="attendance/management" element={<AttendanceManagement />} />
+                <Route path="attendance/report" element={<AttendanceReport />} />
                 <Route path="leaves" element={<Leaves />} />
                 <Route path="tasks" element={<Tasks />} />
               </Route>

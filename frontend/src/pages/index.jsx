@@ -139,25 +139,21 @@ import { EmployeeDetails } from './EmployeeDetails';
 import { EmployeeList } from './EmployeeList';
 import { DepartmentList } from './DepartmentList';
 import { DepartmentForm } from './DepartmentForm';
+import { MyAttendance } from './MyAttendance';
+import { AttendanceHistory } from './AttendanceHistory';
+import { AttendanceManagement } from './AttendanceManagement';
+import { AttendanceReport } from './AttendanceReport';
 
-export { EmployeeList, EmployeeForm, EmployeeDetails, DepartmentList, DepartmentForm };
+export { EmployeeList, EmployeeForm, EmployeeDetails, DepartmentList, DepartmentForm, MyAttendance, AttendanceHistory, AttendanceManagement, AttendanceReport };
 export const Employees = EmployeeList;
 export const Departments = DepartmentList;
-
-export const Attendance = () => (
-  <div className="p-8 bg-[#0B1120] min-h-screen text-[#E2E8F0]">
-    <div className="bg-[#172554] p-8 rounded-2xl border border-[#334155] shadow-sm max-w-4xl mx-auto">
-      <div className="border-b border-[#334155] pb-4 mb-6">
-        <p className="text-xs font-bold text-[#38BDF8] uppercase tracking-wider">Attendance System</p>
-        <h1 className="text-2xl font-extrabold text-[#FFFFFF] mt-1">Attendance Management</h1>
-        <p className="text-sm text-[#94A3B8] mt-1">Track employee check-ins, check-outs, and attendance statuses.</p>
-      </div>
-      <div className="bg-[#0F172A] p-6 rounded-xl border border-[#334155] text-center">
-        <p className="text-sm text-[#94A3B8] font-medium">Attendance records and live daily check-in logs are fully operational.</p>
-      </div>
-    </div>
-  </div>
-);
+export const Attendance = () => {
+  const { user } = useAuth();
+  if (user?.role === 'HR_MANAGER' || user?.role === 'SUPER_ADMIN') {
+    return <AttendanceManagement />;
+  }
+  return <MyAttendance />;
+};
 
 export const Leaves = () => (
   <div className="p-8 bg-[#0B1120] min-h-screen text-[#E2E8F0]">
