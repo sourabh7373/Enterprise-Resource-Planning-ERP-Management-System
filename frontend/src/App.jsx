@@ -16,6 +16,10 @@ import {
   ApplyLeave,
   LeaveDetails,
   Tasks,
+  TaskForm,
+  ProjectList,
+  ProjectForm,
+  ProjectDetails,
   Sales,
   Inventory
 } from './pages';
@@ -62,6 +66,11 @@ const App = () => {
                 <Route path="leaves/apply" element={<ApplyLeave />} />
                 <Route path="leaves/:id" element={<LeaveDetails />} />
                 <Route path="tasks" element={<Tasks />} />
+                <Route path="tasks/create" element={<TaskForm />} />
+                <Route path="projects" element={<ProjectList />} />
+                <Route path="projects/create" element={<ProjectForm />} />
+                <Route path="projects/edit/:id" element={<ProjectForm />} />
+                <Route path="projects/:id" element={<ProjectDetails />} />
               </Route>
 
               <Route element={<RoleBasedRoute allowedRoles={['FINANCE_MANAGER', 'SALES_MANAGER', 'SUPER_ADMIN']} />}>

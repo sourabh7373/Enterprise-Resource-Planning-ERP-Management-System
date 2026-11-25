@@ -145,6 +145,11 @@ import { AttendanceManagement } from './AttendanceManagement';
 import { AttendanceReport } from './AttendanceReport';
 
 export { EmployeeList, EmployeeForm, EmployeeDetails, DepartmentList, DepartmentForm, MyAttendance, AttendanceHistory, AttendanceManagement, AttendanceReport };
+import { TaskForm } from './TaskForm';
+import { ProjectList } from './ProjectList';
+import { ProjectForm } from './ProjectForm';
+import { ProjectDetails } from './ProjectDetails';
+export { TaskForm, ProjectList, ProjectForm, ProjectDetails };
 export const Employees = EmployeeList;
 export const Departments = DepartmentList;
 export const Attendance = () => {
@@ -170,20 +175,8 @@ export const Leaves = () => {
   return <MyLeaves />;
 };
 
-export const Tasks = () => (
-  <div className="p-8 bg-[#0B1120] min-h-screen text-[#E2E8F0]">
-    <div className="bg-[#172554] p-8 rounded-2xl border border-[#334155] shadow-sm max-w-4xl mx-auto">
-      <div className="border-b border-[#334155] pb-4 mb-6">
-        <p className="text-xs font-bold text-[#38BDF8] uppercase tracking-wider">Operations</p>
-        <h1 className="text-2xl font-extrabold text-[#FFFFFF] mt-1">Task Management</h1>
-        <p className="text-sm text-[#94A3B8] mt-1">Assign, track, and monitor team tasks and milestones.</p>
-      </div>
-      <div className="bg-[#0F172A] p-6 rounded-xl border border-[#334155] text-center">
-        <p className="text-sm text-[#94A3B8] font-medium">Task assignments and status updates are fully functional.</p>
-      </div>
-    </div>
-  </div>
-);
+import { TaskList } from './TaskList';
+export const Tasks = TaskList;
 
 export const Sales = () => (
   <div className="p-8 bg-[#0B1120] min-h-screen text-[#E2E8F0]">

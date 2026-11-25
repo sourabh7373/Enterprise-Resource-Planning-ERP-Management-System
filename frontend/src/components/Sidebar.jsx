@@ -6,15 +6,15 @@ import { useAuth } from '../context/AuthContext';
 // Role-based navigation mapping
 const rolePermissions = {
   SUPER_ADMIN: [
-    'Dashboard', 'Employees', 'Departments', 'Attendance', 'Leaves', 'Tasks',
+    'Dashboard', 'Employees', 'Departments', 'Attendance', 'Leaves', 'Tasks', 'Projects',
     'Sales', 'Customers', 'Quotations', 'Finance', 'Income', 'Expenses',
     'Invoices', 'Inventory', 'Products', 'Categories', 'Suppliers'
   ],
-  HR_MANAGER: ['Dashboard', 'Employees', 'Departments', 'Attendance', 'Leaves', 'Tasks'],
+  HR_MANAGER: ['Dashboard', 'Employees', 'Departments', 'Attendance', 'Leaves', 'Tasks', 'Projects'],
   FINANCE_MANAGER: ['Dashboard', 'Finance', 'Income', 'Expenses', 'Invoices'],
   SALES_MANAGER: ['Dashboard', 'Sales', 'Customers', 'Quotations'],
   INVENTORY_MANAGER: ['Dashboard', 'Inventory', 'Products', 'Categories', 'Suppliers'],
-  EMPLOYEE: ['Dashboard', 'Attendance', 'Leaves', 'Apply Leave', 'Tasks'],
+  EMPLOYEE: ['Dashboard', 'Attendance', 'Leaves', 'Apply Leave', 'Tasks', 'Projects'],
 };
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
