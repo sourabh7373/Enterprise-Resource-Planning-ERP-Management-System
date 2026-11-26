@@ -29,6 +29,10 @@ app.use('/api/tasks', require('./routes/taskRoutes'));
 app.use('/api/customers', require('./routes/customerRoutes'));
 app.use('/api/quotations', require('./routes/quotationRoutes'));
 app.use('/api/sales-orders', require('./routes/salesOrderRoutes'));
+app.use('/api/categories', require('./routes/categoryRoutes'));
+app.use('/api/suppliers', require('./routes/supplierRoutes'));
+app.use('/api/products', require('./routes/productRoutes'));
+app.use('/api/inventory', require('./routes/inventoryRoutes'));
 
 // Serve uploaded files statically (restricted or authenticated if needed)
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));

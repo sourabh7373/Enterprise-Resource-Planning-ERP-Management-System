@@ -8,6 +8,9 @@ const connectTestDB = async () => {
     binary: {
       version: '6.0.14',
     },
+    instance: {
+      replSet: 'rs0',
+    },
   });
   const uri = mongoServer.getUri();
   

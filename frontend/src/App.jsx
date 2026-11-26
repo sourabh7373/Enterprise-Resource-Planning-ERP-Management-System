@@ -22,6 +22,13 @@ import {
   ProjectDetails,
   Sales,
   Inventory,
+  ProductList,
+  ProductForm,
+  CategoryManagement,
+  SupplierManagement,
+  StockManagement,
+  StockMovementHistory,
+  LowStockAlerts,
   CustomerList,
   CustomerForm,
   CustomerDetails,
@@ -100,6 +107,14 @@ const App = () => {
 
               <Route element={<RoleBasedRoute allowedRoles={['INVENTORY_MANAGER', 'SUPER_ADMIN']} />}>
                 <Route path="inventory" element={<Inventory />} />
+                <Route path="products" element={<ProductList />} />
+                <Route path="products/create" element={<ProductForm />} />
+                <Route path="products/edit/:id" element={<ProductForm />} />
+                <Route path="categories" element={<CategoryManagement />} />
+                <Route path="suppliers" element={<SupplierManagement />} />
+                <Route path="stock/manage" element={<StockManagement />} />
+                <Route path="stock/history" element={<StockMovementHistory />} />
+                <Route path="stock/alerts" element={<LowStockAlerts />} />
               </Route>
             </Route>
           </Route>

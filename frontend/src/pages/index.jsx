@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { Users, Building2, ClipboardList, CalendarDays, ArrowRight, ShieldCheck, Activity, TrendingUp } from 'lucide-react';
+import { Users, Building2, ClipboardList, CalendarDays, ArrowRight, ShieldCheck, Activity, TrendingUp, Package } from 'lucide-react';
 import { StatCard } from '../components/StatCard';
 import { AnalyticsSection } from '../components/AnalyticsSection';
 import { useAuth } from '../context/AuthContext';
@@ -444,17 +444,163 @@ export const Sales = () => {
   );
 };
 
-export const Inventory = () => (
-  <div className="p-8 bg-[#0B1120] min-h-screen text-[#E2E8F0]">
-    <div className="bg-[#172554] p-8 rounded-2xl border border-[#334155] shadow-sm max-w-4xl mx-auto">
-      <div className="border-b border-[#334155] pb-4 mb-6">
-        <p className="text-xs font-bold text-[#38BDF8] uppercase tracking-wider">Supply Chain</p>
-        <h1 className="text-2xl font-extrabold text-[#FFFFFF] mt-1">Inventory Management</h1>
-        <p className="text-sm text-[#94A3B8] mt-1">Monitor product stock levels, warehouse categories, and suppliers.</p>
+export const Inventory = () => {
+  const navigate = useNavigate();
+  const [stats, setStats] = useState({
+    totalProducts: 0,
+    totalCategories: 0,
+    totalSuppliers: 0,
+    totalStockUnits: 0,
+    lowStockCount: 0
+  });
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchDashboardData = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const headers = { Authorization: `Bearer ${token}` };
+
+        const [prodRes, catRes, suppRes, lowRes] = await Promise.all([
+          fetch('http://localhost:5000/api/products', { headers }),
+          fetch('http://localhost:5000/api/categories', { headers }),
+          fetch('http://localhost:5000/api/suppliers', { headers }),
+          fetch('http://localhost:5000/api/inventory/low-stock', { headers })
+        ]);
+
+        const prodData = await prodRes.json();
+        const catData = await catRes.json();
+        const suppData = await suppRes.json();
+        const lowData = await lowRes.json();
+
+        const products = prodData.data || [];
+        const totalUnits = products.reduce((acc, p) => acc + (p.currentStock || 0), 0);
+
+        setStats({
+          totalProducts: products.length,
+          totalCategories: (catData.data || []).length,
+          totalSuppliers: (suppData.data || []).length,
+          totalStockUnits: totalUnits,
+          lowStockCount: (lowData.data || []).length
+        });
+      } catch (err) {
+        console.error('Failed to load inventory dashboard metrics', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchDashboardData();
+  }, []);
+
+  const navCards = [
+    { title: 'Products', desc: 'Manage catalog, SKU, prices', path: '/products', icon: Package, color: 'bg-[#2563EB]/20 text-[#38BDF8]' },
+    { title: 'Categories', desc: 'Warehouse classification', path: '/categories', icon: Building2, color: 'bg-[#38BDF8]/20 text-[#38BDF8]' },
+    { title: 'Suppliers', desc: 'Vendor directory & contacts', path: '/suppliers', icon: Users, color: 'bg-[#2563EB]/20 text-[#38BDF8]' },
+    { title: 'Stock Operations', desc: 'Stock-in & Stock-out control', path: '/stock/manage', icon: Activity, color: 'bg-[#16A34A]/20 text-[#4ADE80]' },
+    { title: 'Movement History', desc: 'Audit trail & tracking', path: '/stock/history', icon: TrendingUp, color: 'bg-[#38BDF8]/20 text-[#38BDF8]' },
+    { title: 'Low Stock Alerts', desc: 'Critical inventory warnings', path: '/stock/alerts', icon: ShieldCheck, color: 'bg-[#DC2626]/20 text-[#F87171]' },
+  ];
+
+  return (
+    <div className="p-8 space-y-8 bg-[#0B1120] min-h-screen text-[#E2E8F0]">
+      {/* Header Banner */}
+      <div className="bg-gradient-to-r from-[#172554] to-[#1E3A5F] rounded-2xl p-8 text-[#FFFFFF] shadow-lg flex flex-col md:flex-row items-start md:items-center justify-between gap-6 border border-[#334155]">
+        <div>
+          <div className="flex items-center gap-2 mb-2">
+            <span className="bg-[#2563EB] text-[#FFFFFF] text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider flex items-center gap-1 shadow">
+              <ShieldCheck size={12} /> Supply Chain OS
+            </span>
+            <span className="text-[#94A3B8] text-xs">| Real-time Inventory</span>
+          </div>
+          <h1 className="text-3xl font-extrabold tracking-tight text-[#FFFFFF]">Inventory & Supplier Control</h1>
+          <p className="text-[#CBD5E1] text-sm mt-1 max-w-xl">
+            Monitor stock levels, manage warehouse items, track supplier pipelines, and audit stock movements.
+          </p>
+        </div>
+        <div className="flex items-center gap-3 bg-[#0F172A]/80 backdrop-blur-md px-5 py-3 rounded-xl border border-[#334155]">
+          <Package size={24} className="text-[#38BDF8]" />
+          <div>
+            <p className="text-xs text-[#94A3B8] font-medium">Stock Status</p>
+            <p className="text-sm font-bold text-[#FFFFFF] flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-[#16A34A] animate-pulse"></span> {stats.lowStockCount} Low Stock Items
+            </p>
+          </div>
+        </div>
       </div>
-      <div className="bg-[#0F172A] p-6 rounded-xl border border-[#334155] text-center">
-        <p className="text-sm text-[#94A3B8] font-medium">Inventory tracking and supplier pipelines are fully operational.</p>
+
+      {/* Summary Stat Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+        <div className="bg-[#172554] p-6 rounded-2xl border border-[#334155] shadow-sm flex items-center justify-between">
+          <div>
+            <p className="text-xs font-semibold text-[#94A3B8]">Total Products</p>
+            <p className="text-2xl font-bold text-[#FFFFFF] mt-1">{loading ? '...' : stats.totalProducts}</p>
+          </div>
+          <div className="p-3 bg-[#2563EB]/20 text-[#38BDF8] rounded-xl"><Package size={24} /></div>
+        </div>
+        <div className="bg-[#172554] p-6 rounded-2xl border border-[#334155] shadow-sm flex items-center justify-between">
+          <div>
+            <p className="text-xs font-semibold text-[#94A3B8]">Categories</p>
+            <p className="text-2xl font-bold text-[#FFFFFF] mt-1">{loading ? '...' : stats.totalCategories}</p>
+          </div>
+          <div className="p-3 bg-[#38BDF8]/20 text-[#38BDF8] rounded-xl"><Building2 size={24} /></div>
+        </div>
+        <div className="bg-[#172554] p-6 rounded-2xl border border-[#334155] shadow-sm flex items-center justify-between">
+          <div>
+            <p className="text-xs font-semibold text-[#94A3B8]">Suppliers</p>
+            <p className="text-2xl font-bold text-[#FFFFFF] mt-1">{loading ? '...' : stats.totalSuppliers}</p>
+          </div>
+          <div className="p-3 bg-[#2563EB]/20 text-[#38BDF8] rounded-xl"><Users size={24} /></div>
+        </div>
+        <div className="bg-[#172554] p-6 rounded-2xl border border-[#334155] shadow-sm flex items-center justify-between">
+          <div>
+            <p className="text-xs font-semibold text-[#94A3B8]">Total Stock Units</p>
+            <p className="text-2xl font-bold text-[#FFFFFF] mt-1">{loading ? '...' : stats.totalStockUnits}</p>
+          </div>
+          <div className="p-3 bg-[#16A34A]/20 text-[#4ADE80] rounded-xl"><TrendingUp size={24} /></div>
+        </div>
+        <div className="bg-[#172554] p-6 rounded-2xl border border-[#334155] shadow-sm flex items-center justify-between">
+          <div>
+            <p className="text-xs font-semibold text-[#94A3B8]">Low Stock Alerts</p>
+            <p className="text-2xl font-bold text-[#F87171] mt-1">{loading ? '...' : stats.lowStockCount}</p>
+          </div>
+          <div className="p-3 bg-[#DC2626]/20 text-[#F87171] rounded-xl"><ShieldCheck size={24} /></div>
+        </div>
+      </div>
+
+      {/* Quick Navigation Section */}
+      <div className="bg-[#172554] p-6 rounded-2xl border border-[#334155] shadow-sm">
+        <h3 className="text-lg font-bold text-[#FFFFFF] mb-6 flex items-center gap-2">
+          <Package size={20} className="text-[#38BDF8]" /> Supply Chain Modules & Management
+        </h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {navCards.map((card, idx) => {
+            const Icon = card.icon;
+            return (
+              <div
+                key={idx}
+                onClick={() => navigate(card.path)}
+                className="bg-[#0F172A] p-6 rounded-xl border border-[#334155] hover:border-[#38BDF8] transition-all cursor-pointer group flex items-start gap-4 shadow-sm"
+              >
+                <div className={`p-3 rounded-xl ${card.color} group-hover:scale-110 transition-transform`}>
+                  <Icon size={24} />
+                </div>
+                <div>
+                  <h4 className="text-base font-bold text-[#FFFFFF] group-hover:text-[#38BDF8] transition-colors">{card.title}</h4>
+                  <p className="text-xs text-[#94A3B8] mt-1">{card.desc}</p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
+
+export { default as ProductList } from './ProductList';
+export { default as ProductForm } from './ProductForm';
+export { default as CategoryManagement } from './CategoryManagement';
+export { default as SupplierManagement } from './SupplierManagement';
+export { default as StockManagement } from './StockManagement';
+export { default as StockMovementHistory } from './StockMovementHistory';
+export { default as LowStockAlerts } from './LowStockAlerts';

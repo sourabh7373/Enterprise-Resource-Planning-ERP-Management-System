@@ -23,4 +23,7 @@ export const navLinks = [
   { name: 'Products', path: '/products', icon: Package },
   { name: 'Categories', path: '/categories', icon: Package },
   { name: 'Suppliers', path: '/suppliers', icon: Users },
+  { name: 'Stock Management', path: '/stock/manage', icon: Package },
+  { name: 'Stock History', path: '/stock/history', icon: History },
+  { name: 'Low Stock Alerts', path: '/stock/alerts', icon: BarChart2 },
 ];
