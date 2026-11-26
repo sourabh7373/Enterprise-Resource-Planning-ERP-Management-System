@@ -1,5 +1,6 @@
 const Employee = require('../models/Employee');
 const Department = require('../models/Department');
+const { logActivity } = require('./activityLogController');
 
 // Helper to generate unique employee ID
 const generateEmployeeId = async () => {
@@ -192,6 +193,8 @@ const createEmployee = async (req, res) => {
       .populate('department', 'name code')
       .populate('reportingManager', 'fullName employeeId email profileImage');
 
+    await logActivity(req.user._id, 'CREATE', 'EMPLOYEE', `Created employee ${fullName}`, { entityType: 'Employee', entityId: employee._id });
+
     res.status(201).json({
       success: true,
       data: populatedEmployee
@@ -291,6 +294,8 @@ const updateEmployee = async (req, res) => {
     const updatedEmployee = await Employee.findById(employee._id)
       .populate('department', 'name code')
       .populate('reportingManager', 'fullName employeeId email profileImage');
+
+    await logActivity(req.user._id, 'UPDATE', 'EMPLOYEE', `Updated employee ${employee.fullName}`, { entityType: 'Employee', entityId: employee._id });
 
     res.status(200).json({
       success: true,

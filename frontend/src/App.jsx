@@ -2,6 +2,10 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import MainLayout from './layouts/MainLayout';
 import {
   Dashboard,
+  NotificationList,
+  AnnouncementList,
+  ReportsDashboard,
+  ActivityLogsPage,
   Employees,
   EmployeeForm,
   EmployeeDetails,
@@ -17,6 +21,7 @@ import {
   LeaveDetails,
   Tasks,
   TaskForm,
+  TaskDetails,
   ProjectList,
   ProjectForm,
   ProjectDetails,
@@ -90,6 +95,7 @@ const App = () => {
                 <Route path="leaves/:id" element={<LeaveDetails />} />
                 <Route path="tasks" element={<Tasks />} />
                 <Route path="tasks/create" element={<TaskForm />} />
+                <Route path="tasks/:id" element={<TaskDetails />} />
                 <Route path="projects" element={<ProjectList />} />
                 <Route path="projects/create" element={<ProjectForm />} />
                 <Route path="projects/edit/:id" element={<ProjectForm />} />
@@ -129,6 +135,22 @@ const App = () => {
                 <Route path="stock/manage" element={<StockManagement />} />
                 <Route path="stock/history" element={<StockMovementHistory />} />
                 <Route path="stock/alerts" element={<LowStockAlerts />} />
+              </Route>
+
+              <Route element={<RoleBasedRoute allowedRoles={['SUPER_ADMIN', 'HR_MANAGER', 'FINANCE_MANAGER', 'SALES_MANAGER', 'INVENTORY_MANAGER', 'EMPLOYEE']} />}>
+                <Route path="notifications" element={<NotificationList />} />
+              </Route>
+
+              <Route element={<RoleBasedRoute allowedRoles={['SUPER_ADMIN', 'HR_MANAGER', 'EMPLOYEE']} />}>
+                <Route path="announcements" element={<AnnouncementList />} />
+              </Route>
+
+              <Route element={<RoleBasedRoute allowedRoles={['SUPER_ADMIN', 'HR_MANAGER', 'FINANCE_MANAGER', 'SALES_MANAGER', 'INVENTORY_MANAGER']} />}>
+                <Route path="reports" element={<ReportsDashboard />} />
+              </Route>
+
+              <Route element={<RoleBasedRoute allowedRoles={['SUPER_ADMIN']} />}>
+                <Route path="activity-logs" element={<ActivityLogsPage />} />
               </Route>
             </Route>
           </Route>

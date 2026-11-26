@@ -1,6 +1,7 @@
 import { Bell, Search, Menu, User, ShieldCheck } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useLocation } from 'react-router-dom';
+import NotificationDropdown from './NotificationDropdown';
 
 const TopNav = ({ toggleSidebar }) => {
   const { user } = useAuth();
@@ -40,10 +41,7 @@ const TopNav = ({ toggleSidebar }) => {
           />
         </div>
 
-        <button className="relative p-2 text-[#CBD5E1] hover:text-[#FFFFFF] hover:bg-[#0F172A] rounded-xl transition-colors">
-          <Bell size={18} />
-          <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-[#DC2626] rounded-full ring-2 ring-[#111C33]"></span>
-        </button>
+        <NotificationDropdown />
 
         <div className="flex items-center gap-3 pl-4 border-l border-[#334155]">
           <div className="w-9 h-9 bg-[#2563EB] rounded-xl flex items-center justify-center text-[#FFFFFF] font-bold text-sm ring-1 ring-[#38BDF8]/40">

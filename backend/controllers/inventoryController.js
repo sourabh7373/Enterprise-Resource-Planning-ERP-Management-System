@@ -1,5 +1,8 @@
 const Product = require('../models/Product');
 const StockMovement = require('../models/StockMovement');
+const Notification = require('../models/Notification');
+const User = require('../models/User');
+const { logActivity } = require('./activityLogController');
 const mongoose = require('mongoose');
 
 const stockIn = async (req, res) => {
@@ -47,6 +50,22 @@ const stockIn = async (req, res) => {
 
     await session.commitTransaction();
     session.endSession();
+
+    await logActivity(req.user._id, 'CREATE', 'INVENTORY', `Stock in for product ${product.name}`, { entityType: 'Product', entityId: product._id });
+
+    // Check for low stock and notify managers
+    if (product.currentStock <= product.minimumStockLevel) {
+      const managers = await User.find({ role: 'INVENTORY_MANAGER' });
+      for (const manager of managers) {
+        await Notification.create({
+          user: manager._id,
+          title: 'Low Inventory Alert',
+          message: `Product ${product.name} is low on stock: ${product.currentStock}`,
+          type: 'INVENTORY',
+          relatedEntity: { entityType: 'Product', entityId: product._id }
+        });
+      }
+    }
 
     const populated = await StockMovement.findById(movement[0]._id)
       .populate('product', 'name SKU currentStock')
@@ -110,6 +129,22 @@ const stockOut = async (req, res) => {
 
     await session.commitTransaction();
     session.endSession();
+
+    await logActivity(req.user._id, 'CREATE', 'INVENTORY', `Stock out for product ${product.name}`, { entityType: 'Product', entityId: product._id });
+
+    // Check for low stock and notify managers
+    if (product.currentStock <= product.minimumStockLevel) {
+      const managers = await User.find({ role: 'INVENTORY_MANAGER' });
+      for (const manager of managers) {
+        await Notification.create({
+          user: manager._id,
+          title: 'Low Inventory Alert',
+          message: `Product ${product.name} is low on stock: ${product.currentStock}`,
+          type: 'INVENTORY',
+          relatedEntity: { entityType: 'Product', entityId: product._id }
+        });
+      }
+    }
 
     const populated = await StockMovement.findById(movement[0]._id)
       .populate('product', 'name SKU currentStock')

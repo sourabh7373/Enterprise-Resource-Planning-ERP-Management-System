@@ -1,5 +1,6 @@
 const Task = require('../models/Task');
 const Employee = require('../models/Employee');
+const Notification = require('../models/Notification');
 
 // @desc    Create a new task
 // @route   POST /api/tasks
@@ -27,6 +28,20 @@ const createTask = async (req, res) => {
       priority,
       dueDate
     });
+    
+    // Notify assigned employee
+    if (assignedEmployee) {
+      const employee = await Employee.findById(assignedEmployee);
+      if (employee) {
+        await Notification.create({
+          user: employee.user,
+          title: 'New Task Assigned',
+          message: `You have been assigned a new task: ${title}`,
+          type: 'TASK',
+          relatedEntity: { entityType: 'Task', entityId: task._id }
+        });
+      }
+    }
     
     res.status(201).json(task);
   } catch (error) {

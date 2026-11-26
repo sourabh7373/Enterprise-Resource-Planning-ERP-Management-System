@@ -3,23 +3,35 @@ import { navLinks } from '../constants/navigation';
 import { Building2, LogOut } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
-// Role-based navigation mapping
+// Role-based navigation mapping matching exact user specification
 const rolePermissions = {
   SUPER_ADMIN: [
-    'Dashboard', 'Employees', 'Departments', 'Attendance', 'Leaves', 'Tasks', 'Projects',
-    'Sales', 'Customers', 'Quotations', 'Finance', 'Income', 'Expenses',
-    'Invoices', 'Inventory', 'Products', 'Categories', 'Suppliers'
+    'Dashboard', 'Employees', 'Departments', 'Attendance', 'Attendance History', 'Attendance Management', 'Attendance Report',
+    'Leaves', 'Apply Leave', 'Tasks', 'Projects',
+    'Sales', 'Customers', 'Quotations', 'Finance', 'Income', 'Expenses', 'Transactions',
+    'Invoices', 'Inventory', 'Products', 'Categories', 'Suppliers', 'Stock Management', 'Stock History', 'Low Stock Alerts',
+    'Notifications', 'Announcements', 'Reports'
   ],
-  HR_MANAGER: ['Dashboard', 'Employees', 'Departments', 'Attendance', 'Leaves', 'Tasks', 'Projects'],
-  FINANCE_MANAGER: ['Dashboard', 'Finance', 'Income', 'Expenses', 'Transactions', 'Invoices'],
-  SUPER_ADMIN: [
-    'Dashboard', 'Employees', 'Departments', 'Attendance', 'Leaves', 'Tasks', 'Projects',
-    'Sales', 'Customers', 'Quotations', 'Finance', 'Income', 'Expenses',
-    'Invoices', 'Inventory', 'Products', 'Categories', 'Suppliers'
+  HR_MANAGER: [
+    'Dashboard', 'Employees', 'Departments', 'Attendance', 'Attendance History', 'Attendance Management', 'Attendance Report',
+    'Leaves', 'Apply Leave', 'Tasks', 'Projects',
+    'Notifications', 'Announcements', 'Reports'
   ],
-  SALES_MANAGER: ['Dashboard', 'Sales', 'Customers', 'Quotations'],
-  INVENTORY_MANAGER: ['Dashboard', 'Inventory', 'Products', 'Categories', 'Suppliers'],
-  EMPLOYEE: ['Dashboard', 'Attendance', 'Leaves', 'Apply Leave', 'Tasks', 'Projects'],
+  FINANCE_MANAGER: [
+    'Dashboard', 'Sales', 'Customers', 'Quotations', 'Finance', 'Income', 'Expenses', 'Transactions', 'Invoices',
+    'Notifications', 'Reports'
+  ],
+  SALES_MANAGER: [
+    'Dashboard', 'Sales', 'Customers', 'Quotations', 'Notifications', 'Reports'
+  ],
+  INVENTORY_MANAGER: [
+    'Dashboard', 'Inventory', 'Products', 'Categories', 'Suppliers', 'Stock Management', 'Stock History', 'Low Stock Alerts',
+    'Notifications', 'Reports'
+  ],
+  EMPLOYEE: [
+    'Dashboard', 'Attendance', 'Attendance History', 'Leaves', 'Apply Leave', 'Tasks', 'Projects',
+    'Notifications', 'Announcements'
+  ],
 };
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {

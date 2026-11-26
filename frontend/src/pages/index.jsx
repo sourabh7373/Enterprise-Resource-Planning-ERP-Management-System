@@ -186,7 +186,9 @@ export const Leaves = () => {
 };
 
 import { TaskList } from './TaskList';
+import { TaskDetails } from './TaskDetails';
 export const Tasks = TaskList;
+export { TaskDetails };
 
 export const Sales = () => {
   const navigate = useNavigate();
@@ -611,3 +613,7 @@ export { TransactionHistory } from './TransactionHistory';
 export { InvoiceList } from './InvoiceList';
 export { InvoiceDetails } from './InvoiceDetails';
 export { InvoiceForm } from './InvoiceForm';
+export { default as NotificationList } from './NotificationList';
+export { default as AnnouncementList } from '../components/AnnouncementList';
+export { default as ReportsDashboard } from '../components/ReportsDashboard';
+export { default as ActivityLogsPage } from '../components/ActivityLogsPage';

@@ -2,6 +2,7 @@ const SalesOrder = require('../models/SalesOrder');
 const Quotation = require('../models/Quotation');
 const Product = require('../models/Product');
 const StockMovement = require('../models/StockMovement');
+const { logActivity } = require('./activityLogController');
 const mongoose = require('mongoose');
 
 const createSalesOrder = async (req, res) => {
@@ -78,6 +79,8 @@ const createSalesOrder = async (req, res) => {
 
     await session.commitTransaction();
     session.endSession();
+
+    await logActivity(req.user._id, 'CREATE', 'SALES_ORDER', `Created sales order ${salesOrder[0].orderNumber}`, { entityType: 'SalesOrder', entityId: salesOrder[0]._id });
 
     const populatedOrder = await SalesOrder.findById(salesOrder[0]._id)
       .populate('customer', 'name email phone')

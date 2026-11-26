@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const config = require('../config/env');
 const User = require('../models/User');
 const crypto = require('crypto');
+const { logActivity } = require('./activityLogController');
 
 const generateToken = (id) => {
   return jwt.sign({ id }, config.JWT_SECRET, {
@@ -25,6 +26,7 @@ const login = async (req, res) => {
         role: user.role,
         token: generateToken(user._id),
       });
+      await logActivity(user._id, 'LOGIN', 'AUTH', 'User logged in');
     } else {
       res.status(401).json({ message: 'Invalid email or password' });
     }

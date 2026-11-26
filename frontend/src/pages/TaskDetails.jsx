@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { MessageSquare, CheckCircle2 } from 'lucide-react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { MessageSquare, CheckCircle2, ArrowLeft } from 'lucide-react';
 
 export const TaskDetails = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [task, setTask] = useState(null);
   const [loading, setLoading] = useState(true);
   const [comment, setComment] = useState('');
@@ -48,6 +49,14 @@ export const TaskDetails = () => {
 
   return (
     <div className="p-8 space-y-6 bg-[#0B1120] min-h-screen text-[#E2E8F0]">
+      <div className="flex items-center gap-4">
+        <button
+          onClick={() => navigate('/tasks')}
+          className="p-2 border border-[#334155] rounded-xl hover:bg-[#172554] flex items-center gap-2 text-sm font-medium text-[#CBD5E1]"
+        >
+          <ArrowLeft size={18} /> Back to Tasks
+        </button>
+      </div>
       <h1 className="text-3xl font-bold">{task.title}</h1>
       <div className="bg-[#172554] p-6 rounded-2xl border border-[#334155]">
         <p className="text-[#94A3B8] mb-4">{task.description}</p>

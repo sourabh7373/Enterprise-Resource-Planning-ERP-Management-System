@@ -1,6 +1,7 @@
 const Attendance = require('../models/Attendance');
 const Employee = require('../models/Employee');
 const Leave = require('../models/Leave');
+const { logActivity } = require('./activityLogController');
 
 // Helper to normalize date to start of day in UTC or company timezone
 const getNormalizedDate = (date = new Date()) => {
@@ -337,6 +338,8 @@ const correctAttendance = async (req, res) => {
     });
 
     await attendance.save();
+
+    await logActivity(req.user._id, 'UPDATE', 'ATTENDANCE', `Corrected attendance for ${attendance.employee}`, { entityType: 'Attendance', entityId: attendance._id });
 
     const populatedAttendance = await Attendance.findById(attendance._id)
       .populate('employee', 'fullName employeeId department designation')

@@ -1,5 +1,6 @@
 const Transaction = require('../models/Transaction');
 const Invoice = require('../models/Invoice');
+const { logActivity } = require('./activityLogController');
 const mongoose = require('mongoose');
 
 const createTransaction = async (req, res, type) => {
@@ -31,6 +32,9 @@ const createTransaction = async (req, res, type) => {
     await transaction.save({ session });
     await session.commitTransaction();
     session.endSession();
+
+    await logActivity(req.user._id, 'CREATE', 'FINANCE', `Created ${type} transaction`, { entityType: 'Transaction', entityId: transaction._id });
+
     res.status(201).json(transaction);
   } catch (error) {
     await session.abortTransaction();
