@@ -37,7 +37,14 @@ import {
   QuotationDetails,
   SalesOrderList,
   SalesOrderDetails,
-  SalesOrderForm
+  SalesOrderForm,
+  FinanceDashboard,
+  IncomeManagement,
+  ExpenseManagement,
+  TransactionHistory,
+  InvoiceList,
+  InvoiceDetails,
+  InvoiceForm
 } from './pages';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -98,6 +105,13 @@ const App = () => {
                 <Route path="customers/:id" element={<CustomerDetails />} />
                 <Route path="quotations" element={<QuotationList />} />
                 <Route path="quotations/create" element={<QuotationForm />} />
+                <Route path="finance" element={<FinanceDashboard />} />
+                <Route path="finance/income" element={<IncomeManagement />} />
+                <Route path="finance/expenses" element={<ExpenseManagement />} />
+                <Route path="finance/transactions" element={<TransactionHistory />} />
+                <Route path="invoices" element={<InvoiceList />} />
+                <Route path="invoices/create" element={<InvoiceForm />} />
+                <Route path="invoices/:id" element={<InvoiceDetails />} />
                 <Route path="quotations/edit/:id" element={<QuotationForm />} />
                 <Route path="quotations/:id" element={<QuotationDetails />} />
                 <Route path="sales-orders" element={<SalesOrderList />} />

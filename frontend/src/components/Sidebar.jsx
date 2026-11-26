@@ -11,7 +11,12 @@ const rolePermissions = {
     'Invoices', 'Inventory', 'Products', 'Categories', 'Suppliers'
   ],
   HR_MANAGER: ['Dashboard', 'Employees', 'Departments', 'Attendance', 'Leaves', 'Tasks', 'Projects'],
-  FINANCE_MANAGER: ['Dashboard', 'Finance', 'Income', 'Expenses', 'Invoices'],
+  FINANCE_MANAGER: ['Dashboard', 'Finance', 'Income', 'Expenses', 'Transactions', 'Invoices'],
+  SUPER_ADMIN: [
+    'Dashboard', 'Employees', 'Departments', 'Attendance', 'Leaves', 'Tasks', 'Projects',
+    'Sales', 'Customers', 'Quotations', 'Finance', 'Income', 'Expenses',
+    'Invoices', 'Inventory', 'Products', 'Categories', 'Suppliers'
+  ],
   SALES_MANAGER: ['Dashboard', 'Sales', 'Customers', 'Quotations'],
   INVENTORY_MANAGER: ['Dashboard', 'Inventory', 'Products', 'Categories', 'Suppliers'],
   EMPLOYEE: ['Dashboard', 'Attendance', 'Leaves', 'Apply Leave', 'Tasks', 'Projects'],

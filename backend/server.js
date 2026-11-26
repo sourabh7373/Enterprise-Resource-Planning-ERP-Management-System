@@ -33,6 +33,8 @@ app.use('/api/categories', require('./routes/categoryRoutes'));
 app.use('/api/suppliers', require('./routes/supplierRoutes'));
 app.use('/api/products', require('./routes/productRoutes'));
 app.use('/api/inventory', require('./routes/inventoryRoutes'));
+app.use('/api/finance', require('./routes/financeRoutes'));
+app.use('/api/invoices', require('./routes/invoiceRoutes'));
 
 // Serve uploaded files statically (restricted or authenticated if needed)
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
