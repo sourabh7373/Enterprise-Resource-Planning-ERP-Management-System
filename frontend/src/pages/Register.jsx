@@ -48,7 +48,7 @@ const Register = () => {
       if (result.success) {
         setSuccess('Registration successful! Redirecting to dashboard...');
         setTimeout(() => {
-          navigate('/');
+          navigate('/dashboard');
         }, 1200);
       } else {
         setError(result.message || 'Registration failed. Please try again.');

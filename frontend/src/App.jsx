@@ -54,6 +54,7 @@ import {
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Unauthorized from './pages/Unauthorized';
+import HomePage from './pages/HomePage';
 import { AuthProvider } from './context/AuthContext';
 import { ProtectedRoute, RoleBasedRoute } from './components/ProtectedRoute';
 
@@ -62,15 +63,16 @@ const App = () => {
     <AuthProvider>
       <BrowserRouter>
         <Routes>
-          {/* Public Login & Register Routes */}
+          {/* Public Home, Login & Register Routes */}
+          <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/unauthorized" element={<Unauthorized />} />
 
           {/* Protected Main Layout Routes */}
           <Route element={<ProtectedRoute />}>
-            <Route path="/" element={<MainLayout />}>
-              <Route index element={<Dashboard />} />
+            <Route element={<MainLayout />}>
+              <Route path="dashboard" element={<Dashboard />} />
 
               <Route element={<RoleBasedRoute allowedRoles={['HR_MANAGER', 'SUPER_ADMIN']} />}>
                 <Route path="employees" element={<Employees />} />
