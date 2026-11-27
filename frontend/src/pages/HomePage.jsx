@@ -440,7 +440,11 @@ const HomePage = () => {
                 <Mail className="w-6 h-6" />
               </div>
               <h3 className="text-lg font-semibold text-white">Email Us</h3>
-              <p className="text-sm text-slate-400">support@enterpriseerp.example</p>
+              <p className="text-sm text-slate-400">
+                <a href="mailto:info@softwalletinnovativetechnologies.cloud" className="hover:text-blue-400 transition-colors underline">
+                  info@softwalletinnovativetechnologies.cloud
+                </a>
+              </p>
             </div>
 
             <div className="bg-[#172554] border border-slate-700/60 rounded-2xl p-8 text-center space-y-4">
@@ -448,7 +452,10 @@ const HomePage = () => {
                 <Phone className="w-6 h-6" />
               </div>
               <h3 className="text-lg font-semibold text-white">Call Us</h3>
-              <p className="text-sm text-slate-400">+1 (555) 019-2834</p>
+              <div className="flex flex-col space-y-1 text-sm text-slate-400">
+                <a href="tel:+917599741491" className="hover:text-emerald-400 transition-colors">+91 7599741491</a>
+                <a href="tel:+919596393658" className="hover:text-emerald-400 transition-colors">+91 9596393658</a>
+              </div>
             </div>
 
             <div className="bg-[#172554] border border-slate-700/60 rounded-2xl p-8 text-center space-y-4">
@@ -456,7 +463,7 @@ const HomePage = () => {
                 <MapPin className="w-6 h-6" />
               </div>
               <h3 className="text-lg font-semibold text-white">Headquarters</h3>
-              <p className="text-sm text-slate-400">100 Enterprise Blvd, Suite 400, Silicon Valley, CA</p>
+              <p className="text-sm text-slate-400">Kupwara, Jammu & Kashmir - 193222, India</p>
             </div>
           </div>
         </div>
