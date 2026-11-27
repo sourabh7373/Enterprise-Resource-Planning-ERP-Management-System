@@ -8,9 +8,7 @@ const connectDB = require('./config/db');
 const app = express();
 
 // Connect to Database
-if (process.env.NODE_ENV !== 'test') {
-  connectDB();
-}
+connectDB();
 
 // Middleware
 app.use(helmet());
@@ -60,10 +58,8 @@ app.use((err, req, res, next) => {
   res.status(500).json({ message: 'Internal Server Error' });
 });
 
-if (process.env.NODE_ENV !== 'test') {
-  app.listen(config.PORT, () => {
-    console.log(`Server running on port ${config.PORT}`);
-  });
-}
+app.listen(config.PORT, () => {
+  console.log(`Server running on port ${config.PORT}`);
+});
 
 module.exports = app;

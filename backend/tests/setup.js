@@ -1,31 +1,18 @@
 const mongoose = require('mongoose');
-const { MongoMemoryServer } = require('mongodb-memory-server');
 
-let mongoServer;
+const TEST_DB_URI = process.env.TEST_MONGO_URI || 'mongodb://127.0.0.1:27017/erp_test_db';
 
 const connectTestDB = async () => {
-  mongoServer = await MongoMemoryServer.create({
-    binary: {
-      version: '6.0.14',
-    },
-    instance: {
-      replSet: 'rs0',
-    },
-  });
-  const uri = mongoServer.getUri();
-  
-  // Disconnect if already connected
   if (mongoose.connection.readyState !== 0) {
     await mongoose.disconnect();
   }
-  
-  await mongoose.connect(uri);
+  await mongoose.connect(TEST_DB_URI);
 };
 
 const closeTestDB = async () => {
-  await mongoose.disconnect();
-  if (mongoServer) {
-    await mongoServer.stop();
+  if (mongoose.connection.readyState === 1) {
+    await mongoose.connection.dropDatabase();
+    await mongoose.disconnect();
   }
 };
 
