@@ -15,7 +15,7 @@ describe('User Model', () => {
   });
 
   it('should fail to create user with duplicate email', async () => {
-    await User.create({ email: 'test@example.com', password: 'password123' });
-    await expect(User.create({ email: 'test@example.com', password: 'password456' })).rejects.toThrow();
+    await User.create({ email: 'duplicate@example.com', password: 'password123' });
+    await expect(User.create({ email: 'duplicate@example.com', password: 'password456' })).rejects.toThrow();
   });
 });
