@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const ActivityLogsPage = () => {
+export const ActivityLogsPage = () => {
   const [logs, setLogs] = useState([]);
 
   useEffect(() => {
@@ -40,5 +40,3 @@ const ActivityLogsPage = () => {
     </div>
   );
 };
-
-export default ActivityLogsPage;

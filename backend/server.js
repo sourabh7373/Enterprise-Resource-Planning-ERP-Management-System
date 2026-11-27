@@ -39,6 +39,7 @@ app.use('/api/notifications', require('./routes/notificationRoutes'));
 app.use('/api/announcements', require('./routes/announcementRoutes'));
 app.use('/api/activity-logs', require('./routes/activityLogRoutes'));
 app.use('/api/reports', require('./routes/reportRoutes'));
+app.use('/api/dashboards', require('./routes/dashboardRoutes'));
 
 // Serve uploaded files statically (restricted or authenticated if needed)
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
