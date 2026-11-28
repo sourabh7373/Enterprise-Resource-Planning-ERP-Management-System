@@ -1,4 +1,4 @@
-import { LayoutDashboard, Users, Building2, CalendarClock, FileText, ClipboardList, ShoppingCart, Package, History, Settings, BarChart2, Briefcase, Bell, Megaphone, BarChart } from 'lucide-react';
+import { LayoutDashboard, Users, Building2, CalendarClock, FileText, ClipboardList, ShoppingCart, Package, History, Settings, BarChart2, Briefcase, Bell, Megaphone, BarChart, ShieldCheck } from 'lucide-react';
 
 export const navLinks = [
   { name: 'Dashboard', path: '/', icon: LayoutDashboard },
@@ -31,4 +31,5 @@ export const navLinks = [
   { name: 'Announcements', path: '/announcements', icon: Megaphone },
   { name: 'Reports', path: '/reports', icon: BarChart },
   { name: 'Business Intelligence', path: '/analytics', icon: BarChart2 },
+  { name: 'Workflow Automation', path: '/workflows', icon: ShieldCheck },
 ];
