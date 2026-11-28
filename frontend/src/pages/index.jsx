@@ -557,4 +557,5 @@ export { ProjectDetails } from './ProjectDetails';
 export { TaskList } from './TaskList';
 export { TaskForm } from './TaskForm';
 export { TaskDetails } from './TaskDetails';
+export { default as BusinessIntelligencePage } from './BusinessIntelligencePage';
 export { TaskBoard } from './TaskBoard';

@@ -49,7 +49,8 @@ import {
   TransactionHistory,
   InvoiceList,
   InvoiceDetails,
-  InvoiceForm
+  InvoiceForm,
+  BusinessIntelligencePage
 } from './pages';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -149,6 +150,7 @@ const App = () => {
 
               <Route element={<RoleBasedRoute allowedRoles={['SUPER_ADMIN', 'HR_MANAGER', 'FINANCE_MANAGER', 'SALES_MANAGER', 'INVENTORY_MANAGER']} />}>
                 <Route path="reports" element={<ReportsDashboard />} />
+                <Route path="analytics" element={<BusinessIntelligencePage />} />
               </Route>
 
               <Route element={<RoleBasedRoute allowedRoles={['SUPER_ADMIN']} />}>

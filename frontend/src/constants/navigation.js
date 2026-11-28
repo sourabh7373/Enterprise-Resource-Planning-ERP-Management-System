@@ -30,4 +30,5 @@ export const navLinks = [
   { name: 'Notifications', path: '/notifications', icon: Bell },
   { name: 'Announcements', path: '/announcements', icon: Megaphone },
   { name: 'Reports', path: '/reports', icon: BarChart },
+  { name: 'Business Intelligence', path: '/analytics', icon: BarChart2 },
 ];

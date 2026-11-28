@@ -10,23 +10,23 @@ const rolePermissions = {
     'Leaves', 'Apply Leave', 'Tasks', 'Projects',
     'Sales', 'Customers', 'Quotations', 'Finance', 'Income', 'Expenses', 'Transactions',
     'Invoices', 'Inventory', 'Products', 'Categories', 'Suppliers', 'Stock Management', 'Stock History', 'Low Stock Alerts',
-    'Notifications', 'Announcements', 'Reports'
+    'Notifications', 'Announcements', 'Reports', 'Business Intelligence'
   ],
   HR_MANAGER: [
     'Dashboard', 'Employees', 'Departments', 'Attendance', 'Attendance History', 'Attendance Management', 'Attendance Report',
     'Leaves', 'Apply Leave', 'Tasks', 'Projects',
-    'Notifications', 'Announcements', 'Reports'
+    'Notifications', 'Announcements', 'Reports', 'Business Intelligence'
   ],
   FINANCE_MANAGER: [
     'Dashboard', 'Sales', 'Customers', 'Quotations', 'Finance', 'Income', 'Expenses', 'Transactions', 'Invoices',
-    'Notifications', 'Reports'
+    'Notifications', 'Reports', 'Business Intelligence'
   ],
   SALES_MANAGER: [
-    'Dashboard', 'Sales', 'Customers', 'Quotations', 'Notifications', 'Reports'
+    'Dashboard', 'Sales', 'Customers', 'Quotations', 'Notifications', 'Reports', 'Business Intelligence'
   ],
   INVENTORY_MANAGER: [
     'Dashboard', 'Inventory', 'Products', 'Categories', 'Suppliers', 'Stock Management', 'Stock History', 'Low Stock Alerts',
-    'Notifications', 'Reports'
+    'Notifications', 'Reports', 'Business Intelligence'
   ],
   EMPLOYEE: [
     'Dashboard', 'Attendance', 'Attendance History', 'Leaves', 'Apply Leave', 'Tasks', 'Projects',
